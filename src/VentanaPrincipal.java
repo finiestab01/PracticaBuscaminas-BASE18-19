@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -139,7 +140,13 @@ public class VentanaPrincipal {
 	 * Método que inicializa todos los lísteners que necesita inicialmente el programa
 	 */
 	public void inicializarListeners(){
-		//TODO
+		//botonEmpezar.addActionListener(new ActionBoton());
+		for (int i = 0; i < botonesJuego.length; i++) {
+			for (int j = 0; j < botonesJuego[i].length; j++) {
+				botonesJuego[i][j].addActionListener(new ActionBoton());
+				
+			}
+		}
 	}
 	
 	
@@ -156,7 +163,17 @@ public class VentanaPrincipal {
 	 * @param j: posición horizontal de la celda.
 	 */
 	public void mostrarNumMinasAlrededor(int i , int j) {
-		//TODO
+		if(juego.abrirCasilla(i, j)) {
+		panelesJuego[i][j].remove(0);
+		JLabel agua=new JLabel(juego.getMinasAlrededor(i, j)+"");
+		agua.setHorizontalAlignment(SwingConstants.CENTER);
+		agua.setEnabled(false);
+		agua.setForeground(correspondenciaColores[juego.getMinasAlrededor(i, j)]);
+		panelesJuego[i][j].add(agua);
+		refrescarPantalla();
+		}else {
+			mostrarFinJuego(true);
+		}
 	}
 	
 	
@@ -166,14 +183,26 @@ public class VentanaPrincipal {
 	 * @post : Todos los botones se desactivan excepto el de volver a iniciar el juego.
 	 */
 	public void mostrarFinJuego(boolean porExplosion) {
-		//TODO
+		String opane;
+		if(porExplosion) {
+			opane="Perdiste!!\nPuntuaci�n: "+juego.getPuntuacion()+"\nJugar otra vez?";
+		}else {
+			opane="Ganaste!!\nPuntuaci�n: "+juego.getPuntuacion()+"\nJugar otra vez?";
+		}
+		
+		int boton=JOptionPane.showConfirmDialog(null, opane,"Fin de programa",JOptionPane.YES_NO_OPTION);
+		if(boton==0) {
+			juego.inicializarPartida();
+		}else {
+			System.exit(0);
+		}
 	}
 
 	/**
 	 * Método que muestra la puntuación por pantalla.
 	 */
 	public void actualizarPuntuacion() {
-		//TODO
+		pantallaPuntuacion.setText(juego.getPuntuacion()+"");
 	}
 	
 	/**
