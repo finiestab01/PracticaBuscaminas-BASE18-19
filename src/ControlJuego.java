@@ -37,11 +37,23 @@ public class ControlJuego {
 	 *        minas guardan en el entero cuántas minas hay alrededor de la celda
 	 */
 	public void inicializarPartida() {
+		
 		Random rd = new Random();
 		// TODO: Repartir minas e inicializar puntaci�n. Si hubiese un tablero anterior,
 		// lo pongo todo a cero para inicializarlo.
 		puntuacion = 0;
 		minaAux=0;
+		
+		
+		for (int i = 0; i < tablero.length; i++) {
+			for (int j = 0; j < tablero.length; j++) {
+			if (tablero[i][j] == MINA) {
+				tablero[i][j] = 0;
+			}
+		}
+		}
+			
+		
 		
 		while(MINAS_INICIALES!=minaAux) {
 			int x = rd.nextInt(10);
@@ -73,162 +85,21 @@ public class ControlJuego {
 	 * @param j: posición horizontal de la casilla a rellenar
 	 * @return : El número de minas que hay alrededor de la casilla [i][j]
 	 **/
-	public int calculoMinasAdjuntas(int i, int j) {
-		int num = 0;
-		// esquina superior izq
-		if (i == 0 && j == 0) {
-			if (tablero[i + 1][j] == MINA) {
-				num++;
+	public int calculoMinasAdjuntas(int i, int j) {	
+		int iInt;
+		int jInt;
+		int contador=0;
+	
+		for ( iInt = i-1; iInt <= i+1; iInt++) {
+			for ( jInt = j-1; jInt <= j+1; jInt++) {
+				if(iInt>=0 && jInt>=0 && iInt<LADO_TABLERO && jInt<LADO_TABLERO) {
+				if(tablero[iInt][jInt]==MINA) {
+					contador++;
+				}
+				}
 			}
-			if (tablero[i + 1][j + 1] == MINA) {
-				num++;
-			}
-			if (tablero[i][j + 1] == MINA) {
-				num++;
-			}
-			return num;
-		}
-		//esquina superior der
-		if(i==0 && j==9) {
-			if (tablero[i + 1][j] == MINA) {
-				num++;
-			}
-			if (tablero[i + 1][j -1 ] == MINA) {
-				num++;
-			}
-			if (tablero[i][j -1 ] == MINA) {
-				num++;
-			}
-			return num;
-		}
-		//esquina inferior der
-		if (i == 9 && j == 9) {
-			if (tablero[i - 1][j] == MINA) {
-				num++;
-			}
-			if (tablero[i - 1][j - 1] == MINA) {
-				num++;
-			}
-			if (tablero[i][j - 1] == MINA) {
-				num++;
-			}
-			return num;
-		}
-		//esquina inferior izq
-		if(i==9 && j==0) {
-			if (tablero[i - 1][j] == MINA) {
-				num++;
-			}
-			if (tablero[i - 1][j + 1] == MINA) {
-				num++;
-			}
-			if (tablero[i][j + 1] == MINA) {
-				num++;
-			}
-			return num;
-		}
-		//lateral superior
-		if (i == 0) {
-			if (tablero[i][j - 1] == MINA) {
-				num++;
-			}
-			if (tablero[i + 1][j - 1] == MINA) {
-				num++;
-			}
-			if (tablero[i + 1][j] == MINA) {
-				num++;
-			}
-			if (tablero[i + 1][j + 1] == MINA) {
-				num++;
-			}
-			if (tablero[i][j + 1] == MINA) {
-				num++;
-			}
-			return num;
-		}
-		//lateral inferior
-		if (i == 9) {
-			if (tablero[i][j - 1] == MINA) {
-				num++;
-			}
-			if (tablero[i - 1][j - 1] == MINA) {
-				num++;
-			}
-			if (tablero[i - 1][j] == MINA) {
-				num++;
-			}
-			if (tablero[i - 1][j + 1] == MINA) {
-				num++;
-			}
-			if (tablero[i][j + 1] == MINA) {
-				num++;
-			}
-			return num;
-		}
-		//lateral izq
-		if (j == 0) {
-			if (tablero[i - 1][j] == MINA) {
-				num++;
-			}
-			if (tablero[i - 1][j + 1] == MINA) {
-				num++;
-			}
-			if (tablero[i][j + 1] == MINA) {
-				num++;
-			}
-			if (tablero[i + 1][j + 1] == MINA) {
-				num++;
-			}
-			if (tablero[i + 1][j] == MINA) {
-				num++;
-			}
-			return num;
-		}
-		//lateral der
-		if (j == 9) {
-			if (tablero[i - 1][j] == MINA) {
-				num++;
-			}
-			if (tablero[i - 1][j - 1] == MINA) {
-				num++;
-			}
-			if (tablero[i][j - 1] == MINA) {
-				num++;
-			}
-			if (tablero[i + 1][j - 1] == MINA) {
-				num++;
-			}
-			if (tablero[i + 1][j] == MINA) {
-				num++;
-			}
-			return num;
-		}
-		if (tablero[i - 1][j - 1] == MINA) {
-			num++;
-		}
-		if (tablero[i-1][j] == MINA) {
-			num++;
-		}
-		if (tablero[i-1][j + 1] == MINA) {
-			num++;
-		}
-		if (tablero[i][j + 1] == MINA) {
-			num++;
-		}
-		if (tablero[i + 1][j+1] == MINA) {
-			num++;
-		}
-		if (tablero[i+1][j] == MINA) {
-			num++;
-		}
-		if (tablero[i + 1][j - 1] == MINA) {
-			num++;
-		}
-		if (tablero[i][j-1] == MINA) {
-			num++;
-		}
-
-		return num;
+		}	
+		return contador;
 	}
 
 	/**

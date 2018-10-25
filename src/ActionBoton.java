@@ -13,9 +13,13 @@ import java.awt.event.ActionListener;
 public class ActionBoton implements ActionListener{
 
 	VentanaPrincipal ventana;
+	int i;
+	int j;
 
-	public ActionBoton() {
-		ventana=new VentanaPrincipal();
+	public ActionBoton(VentanaPrincipal ventana, int y, int x) {
+		this.ventana=ventana;
+		i=y;
+		j=x;
 	}
 	
 	/**
@@ -23,12 +27,8 @@ public class ActionBoton implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (int i = 0; i < ventana.panelesJuego.length; i++) {
-			for (int j = 0; j < ventana.panelesJuego[i].length; j++) {
-				ventana.mostrarNumMinasAlrededor(i, j);
-				
-			}
-		}
+		ventana.mostrarNumMinasAlrededor(i, j);
+		ventana.actualizarPuntuacion();
 	}
 
 }

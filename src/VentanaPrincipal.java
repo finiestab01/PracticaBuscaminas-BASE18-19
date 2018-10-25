@@ -111,44 +111,55 @@ public class VentanaPrincipal {
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelJuego, settings);
 		
-		//Paneles
-		panelesJuego = new JPanel[10][10];
-		for (int i = 0; i < panelesJuego.length; i++) {
-			for (int j = 0; j < panelesJuego[i].length; j++) {
-				panelesJuego[i][j] = new JPanel();
-				panelesJuego[i][j].setLayout(new GridLayout(1,1));
-				panelJuego.add(panelesJuego[i][j]);
-			}
-		}
-		
-		//Botones
-		botonesJuego = new JButton[10][10];
-		for (int i = 0; i < botonesJuego.length; i++) {
-			for (int j = 0; j < botonesJuego[i].length; j++) {
-				botonesJuego[i][j] = new JButton("-");
-				panelesJuego[i][j].add(botonesJuego[i][j]);
-			}
-		}
-		
-		//BotónEmpezar:
-		panelEmpezar.add(botonEmpezar);
-		panelPuntuacion.add(pantallaPuntuacion);
+		tableroNuevo();
 		
 	}
 	
+	
+	private void tableroNuevo() {
+		//Paneles
+				panelesJuego = new JPanel[10][10];
+				for (int i = 0; i < panelesJuego.length; i++) {
+					for (int j = 0; j < panelesJuego[i].length; j++) {
+						panelesJuego[i][j] = new JPanel();
+						panelesJuego[i][j].setLayout(new GridLayout(1,1));
+						panelJuego.add(panelesJuego[i][j]);
+					}
+				}
+				
+				//Botones
+				botonesJuego = new JButton[10][10];
+				for (int i = 0; i < botonesJuego.length; i++) {
+					for (int j = 0; j < botonesJuego[i].length; j++) {
+						botonesJuego[i][j] = new JButton("-");
+						panelesJuego[i][j].add(botonesJuego[i][j]);
+					}
+				}
+				
+				//BotónEmpezar:
+				panelEmpezar.add(botonEmpezar);
+				panelPuntuacion.add(pantallaPuntuacion);
+		
+	}
+
 	/**
 	 * Método que inicializa todos los lísteners que necesita inicialmente el programa
 	 */
 	public void inicializarListeners(){
-		//botonEmpezar.addActionListener(new ActionBoton());
+		//Arreglar este listener
+		botonEmpezar.addActionListener((e)->{
+			panelJuego.removeAll();
+			tableroNuevo();
+			refrescarPantalla();
+			juego.inicializarPartida();
+			inicializarListeners();
+		});
+
 		for (int i = 0; i < botonesJuego.length; i++) {
 			int y=i;
 			for (int j = 0; j < botonesJuego[i].length; j++) {
 				int x=j;
-				botonesJuego[i][j].addActionListener((e)-> {
-					mostrarNumMinasAlrededor(y, x);
-				}
-				);
+				botonesJuego[i][j].addActionListener(new ActionBoton(this,y,x));
 				
 			}
 		}
@@ -196,7 +207,11 @@ public class VentanaPrincipal {
 		
 		int boton=JOptionPane.showConfirmDialog(null, opane,"Fin de programa",JOptionPane.YES_NO_OPTION);
 		if(boton==0) {
+			panelJuego.removeAll();
+			tableroNuevo();
+			refrescarPantalla();
 			juego.inicializarPartida();
+			inicializarListeners();
 		}else {
 			System.exit(0);
 		}
