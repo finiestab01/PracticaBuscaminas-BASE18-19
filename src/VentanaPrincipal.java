@@ -142,8 +142,13 @@ public class VentanaPrincipal {
 	public void inicializarListeners(){
 		//botonEmpezar.addActionListener(new ActionBoton());
 		for (int i = 0; i < botonesJuego.length; i++) {
+			int y=i;
 			for (int j = 0; j < botonesJuego[i].length; j++) {
-				botonesJuego[i][j].addActionListener(new ActionBoton());
+				int x=j;
+				botonesJuego[i][j].addActionListener((e)-> {
+					mostrarNumMinasAlrededor(y, x);
+				}
+				);
 				
 			}
 		}
@@ -167,7 +172,6 @@ public class VentanaPrincipal {
 		panelesJuego[i][j].remove(0);
 		JLabel agua=new JLabel(juego.getMinasAlrededor(i, j)+"");
 		agua.setHorizontalAlignment(SwingConstants.CENTER);
-		agua.setEnabled(false);
 		agua.setForeground(correspondenciaColores[juego.getMinasAlrededor(i, j)]);
 		panelesJuego[i][j].add(agua);
 		refrescarPantalla();

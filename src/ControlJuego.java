@@ -16,7 +16,7 @@ public class ControlJuego {
 	private final static int MINA = -1;
 	final int MINAS_INICIALES = 20;
 	final int LADO_TABLERO = 10;
-
+	private int minaAux=0;
 	private int[][] tablero;
 	private int puntuacion;
 
@@ -41,11 +41,14 @@ public class ControlJuego {
 		// TODO: Repartir minas e inicializar puntación. Si hubiese un tablero anterior,
 		// lo pongo todo a cero para inicializarlo.
 		puntuacion = 0;
-		for (int i = 0; i < MINAS_INICIALES; i++) {
+		minaAux=0;
+		
+		while(MINAS_INICIALES!=minaAux) {
 			int x = rd.nextInt(10);
 			int y = rd.nextInt(10);
 			if (tablero[y][x] != MINA) {
 				tablero[y][x] = MINA;
+				minaAux++;
 			}
 		}
 

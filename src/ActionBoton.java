@@ -23,9 +23,10 @@ public class ActionBoton implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < ventana.panelesJuego.length; i++) {
+			for (int j = 0; j < ventana.panelesJuego[i].length; j++) {
 				ventana.mostrarNumMinasAlrededor(i, j);
+				
 			}
 		}
 	}
