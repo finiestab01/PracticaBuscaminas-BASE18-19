@@ -4,6 +4,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 
 public class VentanaPrincipal {
@@ -44,6 +48,7 @@ public class VentanaPrincipal {
 	public VentanaPrincipal() {
 		ventana = new JFrame();
 		ventana.setBounds(100, 100, 700, 500);
+		ventana.setLocationRelativeTo(null);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		juego = new ControlJuego();
 	}
@@ -116,7 +121,7 @@ public class VentanaPrincipal {
 	}
 	
 	
-	private void tableroNuevo() {
+	public void tableroNuevo() {
 		//Paneles
 				panelesJuego = new JPanel[10][10];
 				for (int i = 0; i < panelesJuego.length; i++) {
@@ -146,13 +151,17 @@ public class VentanaPrincipal {
 	 * Método que inicializa todos los lísteners que necesita inicialmente el programa
 	 */
 	public void inicializarListeners(){
-		//Arreglar este listener
-		botonEmpezar.addActionListener((e)->{
-			panelJuego.removeAll();
-			tableroNuevo();
-			refrescarPantalla();
-			juego.inicializarPartida();
-			inicializarListeners();
+		botonEmpezar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panelJuego.removeAll();
+				tableroNuevo();
+				refrescarPantalla();
+				juego.inicializarPartida();
+				inicializarListeners();
+				
+			}
 		});
 
 		for (int i = 0; i < botonesJuego.length; i++) {
@@ -160,9 +169,18 @@ public class VentanaPrincipal {
 			for (int j = 0; j < botonesJuego[i].length; j++) {
 				int x=j;
 				botonesJuego[i][j].addActionListener(new ActionBoton(this,y,x));
-				
+				//Marcar posible mina
+				botonesJuego[i][j].addMouseListener(new MouseAdapter() {	
+					@Override
+					public void mousePressed(MouseEvent e) {
+						if(e.getButton()==MouseEvent.BUTTON3) {
+							botonesJuego[y][x].setBackground(Color.RED);
+						}
+					}	
+				});
 			}
 		}
+		
 	}
 	
 	
@@ -187,6 +205,11 @@ public class VentanaPrincipal {
 		panelesJuego[i][j].add(agua);
 		refrescarPantalla();
 		}else {
+			panelesJuego[i][j].remove(0);
+			JLabel agua=new JLabel("X");
+			agua.setHorizontalAlignment(SwingConstants.CENTER);
+			panelesJuego[i][j].add(agua);
+			refrescarPantalla();
 			mostrarFinJuego(true);
 		}
 	}
@@ -205,7 +228,7 @@ public class VentanaPrincipal {
 			opane="Ganaste!!\nPuntuaci�n: "+juego.getPuntuacion()+"\nJugar otra vez?";
 		}
 		
-		int boton=JOptionPane.showConfirmDialog(null, opane,"Fin de programa",JOptionPane.YES_NO_OPTION);
+		int boton=JOptionPane.showConfirmDialog(ventana, opane,"Fin de programa",JOptionPane.YES_NO_OPTION);
 		if(boton==0) {
 			panelJuego.removeAll();
 			tableroNuevo();
@@ -222,6 +245,9 @@ public class VentanaPrincipal {
 	 */
 	public void actualizarPuntuacion() {
 		pantallaPuntuacion.setText(juego.getPuntuacion()+"");
+		if(juego.getPuntuacion()==80) {
+			mostrarFinJuego(false);
+		}
 	}
 	
 	/**

@@ -12,18 +12,18 @@ import java.util.Random;
  */
 public class ControlJuego {
 
-	private final static int FIN=20;
+	private final static int FIN=80;
 	private final static int MINA = -1;
 	final int MINAS_INICIALES = 20;
 	final int LADO_TABLERO = 10;
 	private int minaAux=0;
 	private int[][] tablero;
-	private int puntuacion;
+	private int puntuacion=0;
 
 	public ControlJuego() {
 		// Creamos el tablero:
 		tablero = new int[LADO_TABLERO][LADO_TABLERO];
-
+		System.out.println(puntuacion);
 		// Inicializamos una nueva partida
 		inicializarPartida();
 	}
@@ -127,7 +127,7 @@ public class ControlJuego {
 	 *         minas.
 	 **/
 	public boolean esFinJuego() {
-		return puntuacion==FIN ? true:false;
+		return puntuacion==FIN;
 	}
 
 	/**
