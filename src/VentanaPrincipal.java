@@ -18,6 +18,22 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+/**
+ * Clase gestora de la ventana, en esta se generan e inicializan los botones y el tablero.
+ * También es donde se inician los listener de cada botón. Muestra las minas alrededor y comprueba
+ * si es el fin del juego mostrando un cuadro con la puntuación y si el usuario quiere volver a jugar
+ * {@link #inicializar()}
+ * <p>
+ * {@code ventana.setVisible(true);
+		inicializarComponentes();	
+		inicializarListeners();	}
+ * </p>
+ * @author fernandoiniestabermejo
+ * @version 1.0
+ * @since 26/10/2018
+ * @see ControlJuego
+ *
+ */
 
 public class VentanaPrincipal {
 
@@ -217,8 +233,7 @@ public class VentanaPrincipal {
 	
 	/**
 	 * Muestra una ventana que indica el fin del juego
-	 * @param porExplosion : Un booleano que indica si es final del juego porque ha explotado una mina (true) o bien porque hemos desactivado todas (false) 
-	 * @post : Todos los botones se desactivan excepto el de volver a iniciar el juego.
+	 * @param porExplosion : Un booleano que indica si es final del juego porque ha explotado una mina (true) o bien porque hemos desactivado todas (false)
 	 */
 	public void mostrarFinJuego(boolean porExplosion) {
 		String opane;
